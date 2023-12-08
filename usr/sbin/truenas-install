@@ -323,18 +323,18 @@ install_loader()
 
     for _disk in $_disks
     do
-	    echo "Stamping GPT loader on: /dev/${_disk}"
-	    chroot ${_mnt} grub-install --target=i386-pc /dev/${_disk}
+	    #echo "Stamping GPT loader on: /dev/${_disk}"
+	    #chroot ${_mnt} grub-install --target=i386-pc /dev/${_disk}
 
 	    partition_disk=$(get_partition $_disk 2)
 	    echo "Stamping EFI loader on: ${_disk}"
 	    chroot ${_mnt} mkdosfs -F 32 -s 1 -n EFI ${partition_disk}
 	    chroot ${_mnt} mount -t vfat ${partition_disk} /boot/efi
-	    chroot ${_mnt} grub-install --target=x86_64-efi \
+	    chroot ${_mnt} grub-install --target=arm64-efi \
 		    --efi-directory=/boot/efi \
 		    --bootloader-id=debian --recheck --no-floppy
 	    chroot ${_mnt} mkdir -p /boot/efi/EFI/boot
-	    chroot ${_mnt} cp /boot/efi/EFI/debian/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
+	    chroot ${_mnt} cp /boot/efi/EFI/debian/grubaa64.efi /boot/efi/EFI/boot/bootaa64.efi
 	    chroot ${_mnt} umount /boot/efi
     done
 
